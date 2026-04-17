@@ -1,9 +1,4 @@
 window.AppUtils = (function () {
-  function isEnglishNumber(value) {
-    if (value === null || value === undefined) return "";
-    return String(value);
-  }
-
   function escapeHtml(value) {
     if (value === null || value === undefined) return "";
     return String(value)
@@ -73,10 +68,6 @@ window.AppUtils = (function () {
     }
   }
 
-  function normalizeArray(value) {
-    return Array.isArray(value) ? value : [];
-  }
-
   function getQueryParam(key) {
     const url = new URL(window.location.href);
     return url.searchParams.get(key);
@@ -93,12 +84,10 @@ window.AppUtils = (function () {
   }
 
   return {
-    isEnglishNumber,
     escapeHtml,
     formatDateTime,
     formatRelativeTime,
     getStatusBadgeClass,
-    normalizeArray,
     getQueryParam,
     setQueryParam,
   };
