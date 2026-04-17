@@ -1,8 +1,8 @@
 (function () {
-  const { SUPABASE_URL, SUPABASE_ANON_KEY } = window.APP_CONFIG || {};
+  const { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } = window.APP_CONFIG || {};
 
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    console.error("APP_CONFIG is missing SUPABASE_URL or SUPABASE_ANON_KEY");
+  if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+    console.error("APP_CONFIG is missing SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY");
     window.supabaseClient = null;
     return;
   }
@@ -13,7 +13,7 @@
     return;
   }
 
-  window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
