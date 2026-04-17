@@ -32,7 +32,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             <td>${tags.length ? tags.map(tag => `<span class="badge text-bg-light border me-1">${window.AppUtils.escapeHtml(tag)}</span>`).join("") : "-"}</td>
             <td>${window.AppUtils.formatDateTime(row.last_message_at)}</td>
             <td class="text-center">
-              <a href="conversations.html?contact_id=${encodeURIComponent(row.id)}" class="btn btn-sm btn-outline-primary">المحادثات</a>
+              <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <a href="chat.html?contact_id=${encodeURIComponent(row.id)}" class="btn btn-sm btn-primary">فتح الدردشة</a>
+                <a href="conversations.html?contact_id=${encodeURIComponent(row.id)}" class="btn btn-sm btn-outline-primary">المحادثات</a>
+              </div>
             </td>
           </tr>
         `;
@@ -44,6 +47,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   searchBtn?.addEventListener("click", loadContacts);
+
+  searchInput?.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      loadContacts();
+    }
+  });
+
   resetBtn?.addEventListener("click", () => {
     searchInput.value = "";
     loadContacts();
