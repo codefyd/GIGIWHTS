@@ -8,14 +8,21 @@ document.addEventListener("DOMContentLoaded", async function () {
   const resetBtn = document.getElementById("resetBtn");
   const tbody = document.getElementById("conversationsTableBody");
 
+  const contactIdFilter = window.AppUtils.getQueryParam("contact_id");
+
   async function loadConversations() {
     try {
       const result = await window.AppApi.getConversations({
         search: searchInput.value.trim(),
         status: statusFilter.value,
+        limit: 200,
       });
 
-      const rows = result.rows || [];
+      let rows = result.rows || [];
+
+      if (contactIdFilter) {
+        rows = rows.filter(row => row.contact_id === contactIdFilter);
+      }
 
       if (!rows.length) {
         tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">لا توجد محادثات</div></td></tr>`;
@@ -44,9 +51,18 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   searchBtn?.addEventListener("click", loadConversations);
+
+  searchInput?.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      loadConversations();
+    }
+  });
+
   resetBtn?.addEventListener("click", () => {
     searchInput.value = "";
     statusFilter.value = "";
+    window.AppUtils.setQueryParam("contact_id", "");
     loadConversations();
   });
 
